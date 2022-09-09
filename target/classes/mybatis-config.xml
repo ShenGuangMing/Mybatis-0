@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- mybatis核心配置文件中的标签顺序如下
+    The content of element type "configuration" must match "(properties?,settings?,typeAliases?,
+    typeHandlers?,objectFactory?,objectWrapperFactory?,reflectorFactory?,plugins?,environments?,
+    databaseIdProvider?,mappers?)".-->
+
+    <properties resource="datasource.properties" />
+    
+    <settings>
+        <!--将下划线命名映射到驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!--设置类型别名-->
+    <typeAliases>
+        <typeAlias type="sgm.entity.User" alias="User"/>
+        <typeAlias type="sgm.entity.Employee" alias="Employee"/>
+        <typeAlias type="sgm.entity.Dept" alias="Dept"/>
+        <!--配置实体类所在包-->
+<!--        <package name="smg.entity"/>-->
+    </typeAliases>
+
+    <!--连接数据库的环境配置-->
+    <environments default="development">
+        <environment id="development">
+            <!--
+               type="JDBC|MANAGER"
+                -JDBC: 表示当前环境, 执行 SQL 时, 使用的时 JDBC 中原生的事务管理方式
+                    事务的提交和回滚需要手动处理
+                -MANAGER: 被管理, 例如 Spring
+            -->
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${datasource.driver}"/>
+                <property name="url" value="${datasource.url}"/>
+                <property name="username" value="${datasource.username}"/>
+                <property name="password" value="${datasource.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--映入映射的文件-->
+    <mappers>
+<!--        <mapper resource="mappers/UserMapper.xml"/>-->
+        <!--设置mapper包
+            依包为单位引入映射文件
+            要求:
+             - mapper 接口所在包要和映射文件所在包要一致
+             - mapper 接口要和映射文件名相同
+        -->
+        <package name="sgm.mapper"/>
+    </mappers>
+
+</configuration>

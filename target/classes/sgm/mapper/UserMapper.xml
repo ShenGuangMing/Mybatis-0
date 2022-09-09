@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sgm.mapper.UserMapper">
+    <!--    <resultMap id="empResultMap" type="Employee">-->
+    <!--        <result column="emp_id" property="empId"/>-->
+    <!--        <result column="emp_name" property="empName"/>-->
+    <!--        <result column="emp_age" property="empAge"/>-->
+    <!--        <result column="emp_gender" property="empGender"/>-->
+    <!--        <association property="dept" javaType="Dept">-->
+    <!--            <result column="dept_id" property="deptId"/>-->
+    <!--            <result column="dept_name" property="deptName"/>-->
+    <!--            <result column="dept_num" property="deptNum"/>-->
+    <!--        </association>-->
+    <!--    </resultMap>-->
+
+
+    <insert id="insertUser">
+        insert into user
+        values (null, #{username}, #{password}, #{gender}, #{age}, #{email})
+    </insert>
+
+
+    <update id="updateUser">
+        update user
+        set username = '张三'
+        where id = 3
+    </update>
+
+    <select id="getUser" resultType="sgm.entity.User">
+
+    </select>
+
+    <select id="getUserByUsername" resultType="sgm.entity.User">
+        select *
+        from user
+        where
+        <if test="username != null and username!=''">
+            username = #{username}
+        </if>
+    </select>
+
+    <select id="getUserByUsernameOrPassword" resultType="sgm.entity.User">
+        select *
+        from user
+        <where>
+            <if test="username != null and username!=''">
+                username = #{username}
+            </if>
+            <if test="password != null and password!=''">
+                or password = #{password}
+            </if>
+        </where>
+    </select>
+
+</mapper>

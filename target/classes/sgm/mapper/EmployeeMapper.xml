@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sgm.mapper.EmployeeMapper">
+    <resultMap id="getEmpAndDepByStepResultMap" type="Employee">
+        <!--设置了 <setting name="mapUnderscoreToCamelCase" value="true"/> -->
+        <!--
+        select:
+            设置的分布查询的唯一标识, 一个 Mapper 映射文件不能有重复的 id 但其他的 Mapper 文件可以用别的 Mapper 文件的id
+        column:
+            设置分布查询的条件
+        -->
+        <association property="dept"
+                     select="sgm.mapper.DeptMapper.getEmpAndDeptTwoStep"
+                     column="dept_id"/>
+    </resultMap>
+    <!--Employee getEmpAndDepOneStep(@Param("empId") Integer empId);
+        多对一
+    -->
+    <select id="getEmpAndDepOneStep" resultMap="getEmpAndDepByStepResultMap">
+        select * from empoyee where emp_id=#{empId};
+    </select>
+    <!--
+        一对多
+    -->
+    <select id="getDeptAndEmpTwoStep" resultType="Employee">
+        select * from empoyee where dept_id=#{deptId};
+    </select>
+</mapper>

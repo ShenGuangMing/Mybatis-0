@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sgm.mapper.DeptMapper">
+    <resultMap id="getDeptAndEmpByStepResultMap" type="Dept">
+        <collection property="employees"
+                    select="sgm.mapper.EmployeeMapper.getDeptAndEmpTwoStep"
+                    column="dept_id"
+
+        />
+    </resultMap>
+
+    <!--List<Employee> getDeptAndEmpOneStep(@Param("depId") Integer depId);
+        一对多
+    -->
+    <select id="getDeptAndEmpOneStep" resultMap="getDeptAndEmpByStepResultMap">
+        select * from dept where dept_id = #{depId};
+    </select>
+
+    <!--Dept getEmpAndDeptTwoStep(@Param("depId") Integer depId);
+        多对一
+    -->
+    <select id="getEmpAndDeptTwoStep" resultType="sgm.entity.Dept">
+        select * from dept where dept_id = #{depId};
+    </select>
+</mapper>
